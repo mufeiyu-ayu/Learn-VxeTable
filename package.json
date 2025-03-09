@@ -1,5 +1,5 @@
 {
-  "name": "vxt-table",
+  "name": "vxt-table11",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -16,14 +16,17 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.12",
+    "axios": "^1.8.2",
+    "element-plus": "^2.9.6",
     "pinia": "^3.0.1",
     "tailwindcss": "^4.0.12",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
-    "vxt-table": "link:"
+    "vxe-table": "4.11.19"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.8.1",
+    "@ayu-mu/model": "^1.0.3",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@tsconfig/node22": "^22.0.0",
@@ -47,5 +50,6 @@
     "commitizen": {
       "path": "node_modules/cz-git"
     }
-  }
+  },
+  "packageManager": "pnpm@9.4.0"
 }

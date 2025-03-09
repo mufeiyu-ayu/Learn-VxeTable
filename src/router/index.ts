@@ -1,4 +1,4 @@
-import Table1 from '@/views/Table1.vue'
+import Home from '@/views/learn1/index.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Table1,
+      component: Home,
     },
 
   ],
