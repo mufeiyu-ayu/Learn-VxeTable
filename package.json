@@ -9,6 +9,7 @@
     "build": "pnpm type-check && vite build",
     "preview": "vite preview",
     "build-only": "vite build",
+    "commit": "git-cz",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "husky"
@@ -30,6 +31,7 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-typescript": "^14.5.0",
     "@vue/tsconfig": "^0.7.0",
+    "cz-git": "^1.11.1",
     "eslint": "^9.22.0",
     "eslint-plugin-vue": "~10.0.0",
     "husky": "^9.1.7",
@@ -40,5 +42,10 @@
     "vite": "^6.2.1",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vue-tsc": "^2.2.8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
   }
 }
