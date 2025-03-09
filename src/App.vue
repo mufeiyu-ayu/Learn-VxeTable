@@ -2,7 +2,6 @@
 const a: string = 'hello'
 const b: string = '1'
 console.log(a, b)
-console.log(a, b)
 </script>
 
 <template>
