@@ -1,0 +1,41 @@
+{
+  "name": "vxt-table",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "type-check": "vue-tsc --noEmit",
+    "dev": " pnpm type-check &&  vite",
+    "build": "pnpm type-check && vite build",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.12",
+    "pinia": "^3.0.1",
+    "tailwindcss": "^4.0.12",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.8.1",
+    "@tsconfig/node22": "^22.0.0",
+    "@types/node": "^22.13.9",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/eslint-config-typescript": "^14.5.0",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "^9.22.0",
+    "eslint-plugin-vue": "~10.0.0",
+    "husky": "^9.1.7",
+    "jiti": "^2.4.2",
+    "lint-staged": "^15.4.3",
+    "npm-run-all2": "^7.0.2",
+    "typescript": "~5.8.0",
+    "vite": "^6.2.1",
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "vue-tsc": "^2.2.8"
+  }
+}
