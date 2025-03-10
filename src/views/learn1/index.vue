@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useTable } from './hooks/table-hooks'
 
+const a: number = 1
+console.log(a)
 const { tableData, switchBorder, tableRef, size, footerData, handleClear, handleGetData } = useTable()
 </script>
 
