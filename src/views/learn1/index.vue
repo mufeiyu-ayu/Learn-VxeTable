@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTable } from './hooks/table-hooks'
 
-const { total, tableData, defaultPageSize, switchBorder, tableRef, currentPage, size, footerData, handleClear, handleGetData, handleChangeCurrentPage, handleChangePageSize } = useTable()
+const { total, tableData, defaultPageSize, switchBorder, tableRef, currentPage, size, handleClear, handleGetData, handleChangeCurrentPage, handleChangePageSize } = useTable()
 </script>
 
 <template>
@@ -18,8 +18,8 @@ const { total, tableData, defaultPageSize, switchBorder, tableRef, currentPage, 
         </el-button>
       </div>
     </div>
-    <div class="flex-1 h-full w-full">
-      <vxe-table ref="tableRef" :scroll-x="{ enabled: true }" height="100%" :size="size" :border="switchBorder" align="center" :data="tableData" :footer-data="footerData">
+    <div class="flex-1  w-full">
+      <vxe-table ref="tableRef" :scroll-x="{ enabled: true }" height="100%" :size="size" :border="switchBorder" align="center" :data="tableData">
         >
 
         <vxe-column fields="checkbox" type="checkbox" width="60" />
