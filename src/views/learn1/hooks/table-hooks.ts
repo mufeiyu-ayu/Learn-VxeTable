@@ -30,6 +30,8 @@ export function useTable() {
     handleGetData()
     const aa = 4444
     console.log(aa)
+    const bb = 44441
+    console.log(aa, bb)
   })
 
   return {
