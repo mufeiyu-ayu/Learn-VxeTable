@@ -28,6 +28,9 @@ export function useTable() {
   }
   onMounted(() => {
     handleGetData()
+    const aa = 1
+    const bb = 2
+    console.log(aa, bb)
   })
 
   return {
