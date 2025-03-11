@@ -14,13 +14,5 @@ export default antfu(
       'ts-ignore': 'off',
     },
   },
-  {
-    files: ['**/*.cjs'],
-    rules: {
-      'quotes': ['off', 'single'],
-      // 允许字符串使用反引号
-      'quotes-props': ['off', 'consistent-as-needed'],
 
-    },
-  },
 )
