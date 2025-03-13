@@ -1,25 +1,24 @@
 import type { OrderRecord } from '@/apis'
 
-import type { ComponentInternalInstance } from 'vue'
-import type { VxeComponentSizeType, VxeTableInstance, VxeTablePropTypes } from 'vxe-table'
+import type { Ref } from 'vue'
+import type { VxeTableInstance, VxeTableProps, VxeTablePropTypes } from 'vxe-table'
 import { getProduct } from '@/apis'
 
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 export function useTable() {
-  const instalance = getCurrentInstance() as ComponentInternalInstance
-  const props = instalance.props
+  // const instalance = getCurrentInstance() as ComponentInternalInstance
+  // const props = instalance.props
 
   // 组件实例
 
   const tableRef = ref<VxeTableInstance>()
 
   const tableData = ref<OrderRecord[]>([])
-  const size = ref<VxeComponentSizeType>('small')
+
   const defaultPageSize = ref<number>(10)
   // 当前页数
   const currentPage = ref<number>(1)
-  const switchBorder = ref<boolean>(false)
   // 总条数
   const total = ref<number>()
   // 表尾数据
@@ -27,6 +26,14 @@ export function useTable() {
     { name: '合计', money: 333 },
   ])
 
+  const tableConfig = ref({
+    scrollX: { enabled: true },
+    height: '100%',
+    size: 'small',
+    border: true,
+    align: 'center',
+
+  }) as Ref<VxeTableProps>
   async function handleGetData() {
     tableData.value = []
     const { code, data } = await getProduct({ page: currentPage.value, pageSize: defaultPageSize.value })
@@ -59,12 +66,10 @@ export function useTable() {
   })
 
   return {
-    props,
-    switchBorder,
+    tableConfig,
     defaultPageSize,
     tableRef,
     currentPage,
-    size,
     footerData,
     total,
     tableData,
