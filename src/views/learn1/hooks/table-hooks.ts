@@ -10,8 +10,6 @@ export function useTable() {
   // const instalance = getCurrentInstance() as ComponentInternalInstance
   // const props = instalance.props
 
-  // 组件实例
-
   const tableRef = ref<VxeTableInstance>()
 
   const tableData = ref<OrderRecord[]>([])
