@@ -25,12 +25,12 @@ export function useTable() {
   ])
 
   const tableConfig = ref({
-    scrollX: { enabled: true },
-    height: '100%',
-    size: 'small',
-    border: true,
-    align: 'center',
-
+    scrollX: { enabled: true }, // 启用水平滚动
+    height: '100%', // 设置表格高度为其容器的100%
+    size: 'small', // 设置表格尺寸为小
+    border: false, // 启用表格边框
+    align: 'center', // 将表格单元格内容居中
+    round: true, // 启用圆角
   }) as Ref<VxeTableProps>
   async function handleGetData() {
     tableData.value = []
