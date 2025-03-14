@@ -21,7 +21,7 @@ export function useTable() {
   const total = ref<number>()
   // 表尾数据
   const footerData = ref<VxeTablePropTypes.FooterData>([
-    { name: '合计', money: 333 },
+    { userId: '合计', weight: 333 },
   ])
 
   const tableConfig = ref({
@@ -31,7 +31,15 @@ export function useTable() {
     border: false, // 启用表格边框
     align: 'center', // 将表格单元格内容居中
     round: true, // 启用圆角
+    showFooter: false, // 显示表尾数据
+    footerData: footerData.value, // 表尾数据
+    stripe: false, // 启用斑马线
+    rowConfig: {
+      isCurrent: true,
+      isHover: true,
+    },
   }) as Ref<VxeTableProps>
+
   async function handleGetData() {
     tableData.value = []
     const { code, data } = await getProduct({ page: currentPage.value, pageSize: defaultPageSize.value })

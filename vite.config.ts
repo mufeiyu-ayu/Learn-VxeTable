@@ -5,9 +5,11 @@ import { fileURLToPath, URL } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 // @ts-ignore
 import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import vueDevTools from 'vite-plugin-vue-devtools'
-
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -16,6 +18,13 @@ export default defineConfig({
     vueDevTools(),
     //  @ts-ignore
     tailwindcss(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+
   ],
   resolve: {
     alias: {
@@ -27,6 +36,18 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:5177',
         changeOrigin: true,
+      },
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // 将第三方库分离打包
+          'vendor': ['vue', 'vue-router', 'pinia'],
+          'element-plus': ['element-plus'],
+          'vxe': ['vxe-table', 'vxe-pc-ui'],
+        },
       },
     },
   },
