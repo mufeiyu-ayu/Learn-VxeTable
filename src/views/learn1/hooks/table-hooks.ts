@@ -12,7 +12,6 @@ export function useTable() {
   const tableRef = ref<VxeTableInstance>()
 
   const tableData = ref<OrderRecord[]>([])
-
   const defaultPageSize = ref<number>(10)
   // 当前页数
   const currentPage = ref<number>(1)
@@ -59,7 +58,6 @@ export function useTable() {
 
   /**
    * 当前页数改变时触发
-   * @param val 当前页码
    */
   function handleChangeCurrentPage() {
     handleGetData()

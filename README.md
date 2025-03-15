@@ -22,7 +22,7 @@
 - pnpm >= 9.x
 
 ### 测试一下嗲嘛合并 111111
-### 的吗下雨
+
 ### IDE 推荐
 
 - VSCode
@@ -32,11 +32,11 @@
 
 ## 快速开始
 
-1. **克隆项目**
+1.  **克隆项目**
 
 ```bash
-git clone [your-repository-url]
-cd vxt-table
+git clone https://github.com/x-extends/vxe-table.git
+cd vxe-table
 ```
 
 2. **安装依赖**
@@ -46,12 +46,6 @@ pnpm install
 ```
 
 3. **启动开发服务器**
-
-```bash
-pnpm dev
-```
-
-4. **构建生产版本**
 
 ```bash
 pnpm build
