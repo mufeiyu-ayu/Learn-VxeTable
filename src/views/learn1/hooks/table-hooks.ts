@@ -33,13 +33,14 @@ export function useTable() {
     footerData: footerData.value, // 表尾数据
     stripe: false, // 启用斑马线
     rowConfig: { // 行配置
-      isCurrent: true,
+      // isCurrent: true,
       isHover: true,
-      resizable: true,
-      drag: true,
+      // resizable: true,
+
     },
     columnConfig: { // 列配置
-      isCurrent: true,
+      // drag: true,
+      // isCurrent: true,
       isHover: true,
     },
   })
@@ -69,6 +70,7 @@ export function useTable() {
    */
   function handleChangePageSize(val: number) {
     defaultPageSize.value = val
+    handleGetData()
   }
   onMounted(() => {
     handleGetData()

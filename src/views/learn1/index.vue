@@ -28,7 +28,7 @@ const {
         </el-button>
       </div>
     </div>
-    <div class="flex-1 w-full h-full overflow-hidden">
+    <div class="flex-1 w-full  overflow-hidden">
       <VxeTable ref="tableRef" v-bind="tableConfig" :data="tableData">
         <VxeColumn fields="checkbox" type="checkbox" width="30" />
         <VxeColumn field="index" title="序号" type="seq" width="80" />
@@ -39,11 +39,12 @@ const {
         <VxeColumn field="meno" show-overflow="tooltip" title="备注" />
         <VxeColumn field="username" title="用户姓名" />
         <VxeColumn field="user_code" title="用户编码" />
-        <!-- <VxeColumn field="addTime" title="添加时间" />
+        <VxeColumn field="addTime" title="添加时间" />
         <VxeColumn field="order_name" title="订单名称" />
         <VxeColumn field="order_id" title="订单id" />
         <VxeColumn field="package_num" title="订单数量" />
-        <VxeColumn field="weight" title="重量" /> -->
+        <VxeColumn field="weight" title="重量" />
+
         <VxeColumn field="total_weight" title="总重量" :visible="false" />
 
         <template #empty>
@@ -67,8 +68,8 @@ const {
   </div>
 </template>
 
-<style>
-.a {
-  height: 100%;
+<style scoped>
+:deep(.vxe-table--body) {
+  height: 100% !important;
 }
 </style>
