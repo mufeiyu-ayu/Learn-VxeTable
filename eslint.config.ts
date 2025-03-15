@@ -11,9 +11,10 @@ export default antfu(
     formatters: {
       css: true,
       html: true,
-      markdown: 'prettier',
     },
+    ignores: ['**/*.md'],
   },
+
   // 全局规则
   {
     files: ['**/*{.vue,.js,.ts,}'],
@@ -25,7 +26,7 @@ export default antfu(
       'ts/ban-ts-comment': 'off',
       'ts-ignore': 'off',
     },
-    ignores: ['**/*.md'],
+
   },
 
 )
