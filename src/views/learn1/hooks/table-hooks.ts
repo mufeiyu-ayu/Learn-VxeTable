@@ -1,6 +1,5 @@
 import type { OrderRecord } from '@/apis'
 
-import type { Ref } from 'vue'
 import type { VxeTableInstance, VxeTableProps, VxeTablePropTypes } from 'vxe-table'
 import { getProduct } from '@/apis'
 
@@ -24,7 +23,7 @@ export function useTable() {
     { userId: '合计', weight: 333 },
   ])
 
-  const tableConfig = ref({
+  const tableConfig = ref<VxeTableProps>({
     scrollX: { enabled: true }, // 启用水平滚动
     height: '100%', // 设置表格高度为其容器的100%
     size: 'small', // 设置表格尺寸为小
@@ -34,11 +33,17 @@ export function useTable() {
     showFooter: false, // 显示表尾数据
     footerData: footerData.value, // 表尾数据
     stripe: false, // 启用斑马线
-    rowConfig: {
+    rowConfig: { // 行配置
+      isCurrent: true,
+      isHover: true,
+      resizable: true,
+      drag: true,
+    },
+    columnConfig: { // 列配置
       isCurrent: true,
       isHover: true,
     },
-  }) as Ref<VxeTableProps>
+  })
 
   async function handleGetData() {
     tableData.value = []
