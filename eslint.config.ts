@@ -12,7 +12,7 @@ export default antfu(
       css: true,
       html: true,
     },
-    ignores: ['**/*.md'],
+    ignores: ['**/*.md', '.cursor', '.husky', 'public', '.cursorignore'],
   },
 
   // 全局规则
