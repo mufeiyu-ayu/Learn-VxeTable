@@ -13,6 +13,7 @@ const {
   handleGetData,
   handleChangeCurrentPage,
   handleChangePageSize,
+  handleChangeTableRow,
 } = useTable()
 </script>
 
@@ -29,21 +30,25 @@ const {
       </div>
     </div>
     <div class="flex-1 w-full  overflow-hidden">
-      <VxeTable ref="tableRef" v-bind="tableConfig" :data="tableData">
+      <VxeTable
+        ref="tableRef"
+        v-bind="tableConfig"
+        :data="tableData"
+        @current-change="handleChangeTableRow"
+      >
         <VxeColumn fields="checkbox" type="checkbox" width="30" />
         <VxeColumn field="index" title="序号" type="seq" width="80" />
-
-        <VxeColumn field="userId" title="用户id" />
-        <VxeColumn field="product_name" title="商品名称" />
-        <VxeColumn field="product_code" title="商品编码" />
+        <VxeColumn field="userId" title="u" />
+        <VxeColumn field="product_name" show-overflow="tooltip" title="商品名称dadasasdasdasdasdasdasdasdas" />
+        <VxeColumn field="product_code" show-overflow="tooltip" title="商品编码" />
         <VxeColumn field="meno" show-overflow="tooltip" title="备注" />
-        <VxeColumn field="username" title="用户姓名" />
-        <VxeColumn field="user_code" title="用户编码" />
-        <VxeColumn field="addTime" title="添加时间" />
-        <VxeColumn field="order_name" title="订单名称" />
-        <VxeColumn field="order_id" title="订单id" />
-        <VxeColumn field="package_num" title="订单数量" />
-        <VxeColumn field="weight" title="重量" />
+        <VxeColumn field="username" show-overflow="tooltip" title="用户姓名" />
+        <VxeColumn field="user_code" show-overflow="tooltip" title="用户编码" />
+        <VxeColumn field="addTime" show-overflow="tooltip" title="添加时间" />
+        <VxeColumn field="order_name" show-overflow="tooltip" title="订单名称" />
+        <VxeColumn field="order_id" show-overflow="tooltip" title="订单id" />
+        <VxeColumn field="package_num" show-overflow="tooltip" title="订单数量" />
+        <VxeColumn field="weight" show-overflow="tooltip" title="重量" />
 
         <VxeColumn field="total_weight" title="总重量" :visible="false" />
 
