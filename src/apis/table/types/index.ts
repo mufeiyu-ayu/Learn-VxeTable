@@ -22,7 +22,6 @@ export interface OrderRecord {
 }
 
 export interface OrderRecordList extends Paging {
-  orderRecordList: OrderRecord[]
   total: number
   list: OrderRecord[]
 
