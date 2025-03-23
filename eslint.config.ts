@@ -19,12 +19,20 @@ export default antfu(
   {
     files: ['**/*{.vue,.js,.ts,}'],
     rules: {
-      'no-console': 'off',
+      'no-console': import.meta.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-multi-assign': 'off',
       'ts/no-explicit-any': 'error',
       'ts/max-params': ['error', { max: 3 }],
-      'ts/ban-ts-comment': 'off',
-      'ts-ignore': 'off',
+      'ts/ban-ts-comment': 'off', // 关闭使用ts-ignore
+      'ts-ignore': 'off', // 关闭使用ts-ignore
+      'vue/component-name-in-template-casing': [
+        'error',
+        'PascalCase',
+        {
+          registeredComponentsOnly: false,
+          ignores: [],
+        },
+      ], // 组件名称在模板中使用帕斯卡命名法
     },
 
   },
