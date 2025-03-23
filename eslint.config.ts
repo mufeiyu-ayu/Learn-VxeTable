@@ -33,6 +33,14 @@ export default antfu(
           ignores: [],
         },
       ], // 组件名称在模板中使用帕斯卡命名法
+      'vue/max-attributes-per-line': ['error', {
+        singleline: {
+          max: 3,
+        },
+        multiline: {
+          max: 1,
+        },
+      }], // 单行属性最大3个，多行属性最大1个
     },
 
   },
