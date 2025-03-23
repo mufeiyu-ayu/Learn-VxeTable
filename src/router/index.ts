@@ -1,4 +1,6 @@
-import Home from '@/views/learn1/index.vue'
+import Learn1 from '@/views/basic/index.vue'
+import Learn2 from '@/views/mergeCells/index.vue'
+
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -7,10 +9,21 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Learn1,
+    },
+    {
+      path: '/learn1',
+      name: 'learn1',
+      component: Learn1,
+    },
+    {
+      path: '/learn2',
+      name: 'learn2',
+      component: Learn2,
     },
 
   ],
 })
 
 export default router
+// 测试 git flow
