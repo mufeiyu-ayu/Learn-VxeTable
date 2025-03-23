@@ -24,9 +24,10 @@ export function useTable() {
 
   const tableConfig = ref<VxeTableProps>({
     scrollX: { enabled: true }, // 启用水平滚动
-    // height: '100%', // 设置表格高度为其容器的100%
+    height: '100%', // 设置表格高度为其容器的100%
     autoResize: true, // 响应式就可以自动跟随父容器宽、高动态变化
     size: 'small', // 设置表格尺寸为小
+    loading: true, // 显示loading
     border: true, // 启用表格边框
     align: 'center', // 将表格单元格内容居中
     round: true, // 启用圆角
@@ -56,12 +57,18 @@ export function useTable() {
     },
   })
 
+  const userTitlePrefix = ref({
+    useHTML: true,
+    content: 'hello world',
+  })
+
   async function handleGetData() {
-    tableData.value = []
+    tableConfig.value.loading = true
     const { code, data } = await getProduct({ page: currentPage.value, pageSize: defaultPageSize.value })
     if (code !== 0)
       return
     tableData.value = data.list
+    tableConfig.value.loading = false
     total.value = data.total
   }
   function handleClear() {
@@ -119,5 +126,6 @@ export function useTable() {
     handleChangeCurrentPage,
     handleChangePageSize,
     handleChangeTableRow,
+    userTitlePrefix,
   }
 }

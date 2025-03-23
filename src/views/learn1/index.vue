@@ -6,7 +6,7 @@ const {
   total,
   tableData,
   defaultPageSize,
-
+  userTitlePrefix,
   tableRef,
   currentPage,
   handleClear,
@@ -29,7 +29,7 @@ const {
         </ElButton>
       </div>
     </div>
-    <div class="w-[80%] h-[800px] flex-1 flex flex-col justify-between">
+    <div class="w-[80%] h-[600px] flex-1 flex flex-col justify-between">
       <div class="flex-1 w-full h-full overflow-hidden">
         <VxeTable
           ref="tableRef"
@@ -38,8 +38,13 @@ const {
           @current-change="handleChangeTableRow"
         >
           <VxeColumn fields="checkbox" type="checkbox" width="30" />
-          <VxeColumn field="index" title="序号" type="seq" width="80" />
-          <VxeColumn field="userId" title="u" />
+          <VxeColumn
+            field="index"
+            title="序号"
+            type="seq"
+            width="80"
+          />
+          <VxeColumn field="userId" title="uerId" :title-prefix="userTitlePrefix" />
           <VxeColumn field="product_name" title="商品名称dadasasdasdasdasdasdasdasdas" />
           <VxeColumn field="product_code" title="商品编码" />
           <VxeColumn field="meno" title="备注" />
@@ -50,13 +55,23 @@ const {
           </VxeColgroup>
           <VxeColumn field="order_name" title="订单名称" />
           <VxeColumn field="order_id" title="订单id" />
-          <VxeColumn field="package_num" title="订单数量" />
+          <VxeColumn
+            field="package_num"
+            title="订单数量"
+            sortable
+            sort-type="auto"
+          />
           <VxeColumn field="weight" title="重量" />
 
           <VxeColumn field="total_weight" title="总重量" :visible="false" />
           <!-- 操作 -->
-          <VxeColumn field="operation" fixed="right" min-width="200" title="操作">
-            <template>
+          <VxeColumn
+            field="operation"
+            fixed="right"
+            min-width="200"
+            title="操作"
+          >
+            <template #default>
               <ElButton type="primary">
                 编辑
               </ElButton>
@@ -66,7 +81,7 @@ const {
             </template>
           </VxeColumn>
           <template #empty>
-            <div v-loading="true" class="" element-loading-text="数据加载中" />
+            <span>没有更多数据啦</span>
           </template>
         </VxeTable>
       </div>
@@ -74,7 +89,7 @@ const {
       <div class="flex justify-end mt-10">
         <ElPagination
           v-model:current-page="currentPage"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, sizes, prev, pager, next jumper"
           background
           :total="total"
           :page-sizes="[10, 20, 30]"
