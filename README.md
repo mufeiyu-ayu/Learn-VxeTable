@@ -1,19 +1,6 @@
-# VXE-Table Vue3 学习项目
+# 你写后台你不会写表格？我直接手撕 VXE-TABLE
 
-这是一个基于 Vue 3 + TypeScript + Vite 的项目，用于学习和实践 vxe-table 表格组件的使用。
-
-## 项目简介
-
-本项目使用最新版本的 vxe-table，旨在探索和实践高性能表格组件的各种功能特性。
-
-### 技术栈
-
-- Vue 3
-- TypeScript
-- Vite
-- VXE-Table 4.x
-- Pinia (状态管理)
-
+**作为一个爱唱跳 rap，开发时长 2 年半的前端狗，经常在写后台，遇到表格很多古怪玩意，每次都要百度，问 ai，但有时候还是写不出来，所以就自己手撕了 VXE-TABLE 的表格组件，当我手搓 VXE-TABLE后再搭配cursor。请问阁下应当如何应对？**
 ## 开发环境设置
 
 ### 前置要求
@@ -21,16 +8,7 @@
 - Node.js >= 18.0.0
 - pnpm >= 9.x
 
-### 测试一下嗲嘛合并 111111
-
-### IDE 推荐
-
-- VSCode
-- 必要的插件：
-  - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (记得禁用 Vetur)
-  - [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
-
-## 快速开始
+### 安装依赖
 
 1.  **克隆项目**
 
