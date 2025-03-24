@@ -31,27 +31,16 @@ export function useTable() {
     showFooter: false, // 显示表尾数据
 
     showOverflow: 'tooltip', // 显示溢出内容
-    stripe: false, // 启用斑马线
-    maxHeight: '100%',
-    rowConfig: { // 行配置
-      isCurrent: true,
-      isHover: true,
-      // resizable: true,
 
-    },
-    cellConfig: { // 单元格配置
-      // padding: true,
-      // height: 75,
-
-    },
     columnConfig: { // 列配置
       minWidth: 100,
-      // drag: true,
-      // isCurrent: true,
-      isHover: true,
-      // width: 'auto',
-      resizable: true, // 启用列宽拖动
     },
+    //  临时合并指定的单元格 (不能用于展开行，不建议用于固定列、树形结构)分页会失效，因为是基于当前页面数据的索引位置来实现的
+    mergeCells: [ //
+      // 从第一行第二列往下合并 3 行，横向合并 1 列
+      { row: 0, col: 1, rowspan: 3, colspan: 1 },
+    ],
+
   })
 
   const userTitlePrefix = ref({
