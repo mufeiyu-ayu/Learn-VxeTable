@@ -29,9 +29,7 @@ export function useTable() {
     align: 'center', // 将表格单元格内容居中
     round: true, // 启用圆角
     showFooter: false, // 显示表尾数据
-
     showOverflow: 'tooltip', // 显示溢出内容
-
     columnConfig: { // 列配置
       minWidth: 100,
     },
@@ -40,7 +38,6 @@ export function useTable() {
       // 从第一行第二列往下合并 3 行，横向合并 1 列
       { row: 0, col: 1, rowspan: 3, colspan: 1 },
     ],
-
   })
 
   const userTitlePrefix = ref({
