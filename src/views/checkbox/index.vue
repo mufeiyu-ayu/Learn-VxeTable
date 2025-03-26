@@ -39,13 +39,21 @@ const {
           @checkbox-all="handleSelectionChange"
         >
           <VxeColumn fields="checkbox" type="checkbox" min-width="40" />
-          <VxeColumn
+          <!-- <VxeColumn
             field="index"
             title="序号"
             type="seq"
             width="80"
+            row-resize
+          /> -->
+          <VxeColumn
+            field="id"
+            title="id"
+            tree-node
+            row-resize
           />
           <VxeColumn field="userId" title="uerId" :title-prefix="userTitlePrefix" />
+          <VxeColumn field="parentId" title="父级id" />
           <VxeColumn field="product_name" title="商品名称dadasasdasdasdasdasdasdasdas" />
           <VxeColumn field="product_code" title="商品编码" />
           <VxeColumn field="meno" title="备注" />
@@ -58,9 +66,9 @@ const {
           <VxeColumn field="order_id" title="订单id" />
           <VxeColumn
             field="package_num"
-            title="订单数量"
+            sort-type="number"
             sortable
-            sort-type="auto"
+            title="订单数量"
           />
           <VxeColumn field="weight" title="重量" />
 
@@ -93,7 +101,7 @@ const {
           layout="total, sizes, prev, pager, next jumper"
           background
           :total="total"
-          :page-sizes="[10, 20, 30]"
+          :page-sizes="[10, 20, 30, 300]"
           :default-page-size="defaultPageSize"
           @current-change="handleChangeCurrentPage"
           @size-change="handleChangePageSize"

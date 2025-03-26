@@ -6,6 +6,8 @@
   "compilerOptions": {
     "target": "esnext", // 目标语言的版本
     "jsx": "preserve", // JSX 代码的处理方式。
+
+    "jsxImportSource": "vue",
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"], // 指定要包含的库文件。
     "useDefineForClassFields": true, // 是否使用类字段初始化器语法
 

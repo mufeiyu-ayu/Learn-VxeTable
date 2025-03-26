@@ -6,6 +6,7 @@ export interface Paging {
 
 export interface OrderRecord {
   id: number
+  parentId: number
   userId: number
   product_name: string
   product_code: string

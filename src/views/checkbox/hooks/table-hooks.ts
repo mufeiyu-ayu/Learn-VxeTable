@@ -26,22 +26,33 @@ export function useTable() {
     showOverflow: 'tooltip',
     columnConfig: {
       minWidth: 100,
-      // resizable: true,
+      resizable: true,
     },
     rowConfig: {
       isHover: true,
       keyField: 'id', // 指定行数据的唯一标识字段
+      resizable: true,
     },
     checkboxConfig: {
       // reserve: false, // 保留选中状态
       highlight: true, // 高亮选中状态
-      range: true, // 开启复选框范围选择功能，启用后通过鼠标在复选框的列内滑动选中或取消指定行
+      // range: true, // 开启复选框范围选择功能，启用后通过鼠标在复选框的列内滑动选中或取消指定行
       // showReserveStatus: true, // 显示保留选中状态
       checkMethod: ({ row }: { row: OrderRecord }) => {
         return row.package_num < 80 // 控制哪些数据无法被选中
       },
     },
-
+    sortConfig: {
+      defaultSort: {
+        field: 'package_num',
+        order: 'desc', // desc降序 asc 升序
+      },
+    },
+    treeConfig: {
+      transform: true,
+      rowField: 'id',
+      parentField: 'parentId',
+    },
   })
 
   const userTitlePrefix = ref({
@@ -57,7 +68,6 @@ export function useTable() {
   }
 
   async function handleGetData() {
-    console.log(selectedRows.value, 22)
     tableConfig.value.loading = true
     try {
       const { code, data } = await getProduct({
