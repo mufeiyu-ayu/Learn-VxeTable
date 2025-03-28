@@ -11,7 +11,12 @@ import {
 } from 'vxe-table'
 import App from './App.vue'
 import router from './router'
-// import 'vxe-pc-ui/lib/style.css'
+
+// 引入基础样式
+import 'vxe-pc-ui/styles/base.scss'
+// 按需引入组件样式
+import 'vxe-pc-ui/styles/components/input.scss'
+import 'vxe-pc-ui/styles/components/tooltip.scss'
 import 'vxe-table/lib/style.css'
 
 import './assets/main.css'
@@ -21,7 +26,6 @@ const app = createApp(App)
 function lazyUI(app) {
   app.use(VxeInput)
   app.use(VxeTooltip)
-  app.use()
 }
 function lazyVexTable(app) {
   app.use(VxeTable)
