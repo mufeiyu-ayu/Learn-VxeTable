@@ -1,5 +1,6 @@
 import Learn1 from '@/views/basic/index.vue'
 import Learn3 from '@/views/checkbox/index.vue'
+import Edit from '@/views/edit/index.vue'
 import Learn2 from '@/views/mergeCells/index.vue'
 import Learn4 from '@/views/render/index.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -31,6 +32,11 @@ const router = createRouter({
       path: '/learn4',
       name: 'learn4',
       component: Learn4,
+    },
+    {
+      path: '/edit',
+      name: 'edit',
+      component: Edit,
     },
   ],
 })

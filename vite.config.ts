@@ -10,8 +10,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
+import { lazyImport, VxeResolver } from 'vite-plugin-lazy-import'
 import vueDevTools from 'vite-plugin-vue-devtools'
-
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -26,6 +26,16 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()],
+    }),
+    lazyImport({
+      resolvers: [
+        VxeResolver({
+          libraryName: 'vxe-table',
+        }),
+        VxeResolver({
+          libraryName: 'vxe-pc-ui',
+        }),
+      ],
     }),
 
   ],
