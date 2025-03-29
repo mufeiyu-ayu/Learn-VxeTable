@@ -15,7 +15,8 @@ export function setupTable() {
   const defaultPageSize = ref<number>(10)
   const currentPage = ref<number>(1)
   const total = ref<number>()
-
+  /*   是否显示操作列 */
+  const showOperation = ref<boolean>(props.showOperation)
   // 存储选中的行数据
   const selectedRows = ref<OrderRecord[]>([])
 
@@ -80,6 +81,7 @@ export function setupTable() {
   return {
     tableConfig,
     tableColumns,
+    showOperation,
     defaultPageSize,
     tableRef,
     currentPage,

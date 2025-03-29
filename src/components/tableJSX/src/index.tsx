@@ -1,4 +1,3 @@
-import type { OrderRecord, OrderRecordList } from '@/apis'
 import type { PropType, Ref } from 'vue'
 import type { VxeTableInstance } from 'vxe-table'
 import type { CustomVxeColumnProps, TableProps } from './types/table.ts'
@@ -30,6 +29,20 @@ export default defineComponent({
       type: Function as PropType<TableProps['getTableData']>,
       required: true,
     },
+    showOperation: {
+      type: Boolean as PropType<TableProps['showOperation']>,
+      default: true,
+      required: true,
+    },
+    operationConfig: {
+      type: Object as PropType<TableProps['operationConfig']>,
+      default: () => ({
+        delete: {
+          type: 'danger',
+          label: '删除',
+        },
+      }),
+    },
   },
   setup(props: TableProps, { expose }) {
     const {
@@ -41,7 +54,8 @@ export default defineComponent({
       tableRef,
       currentPage,
       handleSelectionChange,
-    } = setupTable<Partial<OrderRecord>, OrderRecordList>()
+      showOperation,
+    } = setupTable()
 
     expose({
       a: 1,
@@ -63,7 +77,8 @@ export default defineComponent({
           >
 
             {columns.value.map((column: CustomVxeColumnProps) => <ColumnItem column={column} />)}
-            <OperationColumn config={props} />
+            {/* 操作项 */}
+            {showOperation.value && <OperationColumn config={props} />}
           </VxeTable>
         </div>
 
