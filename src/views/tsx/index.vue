@@ -1,9 +1,11 @@
 <script setup lang="tsx">
+import type { OrderRecord } from '@/apis'
 import type { TableProps } from '@/components/tableJSX/src/types/table.ts'
 import { getProduct } from '@/apis'
 import { DataGrid } from '@/components/tableJSX/index.ts'
+import { ElButton } from 'element-plus'
 
-const tableBind: TableProps = {
+const tableBind: TableProps<Partial<OrderRecord>> = {
   tableConfig: {
     border: true,
   },
@@ -12,6 +14,10 @@ const tableBind: TableProps = {
       type: 'checkbox' as const,
       field: 'checkbox',
       minWidth: 40,
+    },
+    {
+      type: 'seq',
+      title: '序号',
     },
     {
       field: 'id',
@@ -25,6 +31,9 @@ const tableBind: TableProps = {
       titlePrefix: {
         content: 'userTitlePrefix',
       },
+      render: () => {
+        return <ElButton>hello world</ElButton>
+      },
     },
     {
       field: 'parentId',
@@ -34,6 +43,7 @@ const tableBind: TableProps = {
     {
       field: 'product_name',
       title: '商品名称dadasasdasdasdasdasdasdasdas',
+      width: 300,
     },
     {
       field: 'product_code',
@@ -73,7 +83,15 @@ const tableBind: TableProps = {
 </script>
 
 <template>
-  <div class="w-full h-full">
-    <DataGrid v-bind="tableBind" />
+  <div class="w-full h-full flex flex-col">
+    <div class="w-[80%] h-[700px]">
+      <DataGrid v-bind="tableBind" />
+    </div>
   </div>
 </template>
+
+<style scoped>
+:deep(.vxe-table--body) {
+  height: 100% !important;
+}
+</style>

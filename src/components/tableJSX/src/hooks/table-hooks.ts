@@ -1,72 +1,23 @@
 import type { OrderRecord } from '@/apis'
-import type { VxeColumnProps, VxeTableInstance, VxeTableProps } from 'vxe-table'
+import type { VxeTableInstance } from 'vxe-table'
 import type { TableProps } from '../types/table'
-import { getProduct } from '@/apis'
-import { getCurrentInstance, nextTick, onMounted, ref } from 'vue'
+import { getCurrentInstance, nextTick, onMounted, ref, watchEffect } from 'vue'
+import { useTableConfig } from './table.config'
 
 export function setupTable() {
   const instance = getCurrentInstance()
   const props = instance.props as unknown as TableProps
+
+  const { initTableConfig } = useTableConfig(props)
+  const { tableConfig, tableColumns } = initTableConfig()
   const tableRef = ref<VxeTableInstance>()
   const tableData = ref<OrderRecord[]>([])
   const defaultPageSize = ref<number>(10)
   const currentPage = ref<number>(1)
-  const tableColumns = ref<VxeColumnProps[]>([])
   const total = ref<number>()
 
   // 存储选中的行数据
   const selectedRows = ref<OrderRecord[]>([])
-  const tableConfig = ref<VxeTableProps>()
-  const oldTableConfig = ref<VxeTableProps>({
-    scrollX: { enabled: true },
-    height: '100%',
-    autoResize: true,
-    size: 'medium',
-    loading: true,
-    border: true,
-    align: 'center',
-    round: true,
-    showFooter: false,
-    showOverflow: 'tooltip',
-    columnConfig: {
-      minWidth: 100,
-      resizable: true,
-    },
-    rowConfig: {
-      isHover: true,
-      keyField: 'id', // 指定行数据的唯一标识字段
-      resizable: true,
-    },
-    checkboxConfig: {
-      // reserve: false, // 保留选中状态
-      highlight: true, // 高亮选中状态
-      // range: true, // 开启复选框范围选择功能，启用后通过鼠标在复选框的列内滑动选中或取消指定行
-      // showReserveStatus: true, // 显示保留选中状态
-      checkMethod: ({ row }: { row: OrderRecord }) => {
-        return row.package_num < 80 // 控制哪些数据无法被选中
-      },
-    },
-    sortConfig: {
-      defaultSort: {
-        field: 'package_num',
-        order: 'desc', // desc降序 asc 升序
-      },
-    },
-    editConfig: {
-      trigger: 'click',
-      mode: 'row',
-    },
-    // treeConfig: {
-    //   transform: true,
-    //   rowField: 'id',
-    //   parentField: 'parentId',
-    // },
-  })
-
-  const userTitlePrefix = ref({
-    useHTML: true,
-    content: 'hello world',
-  })
 
   // 处理选择变化
   const handleSelectionChange = () => {
@@ -75,18 +26,21 @@ export function setupTable() {
     selectedRows.value = selection
   }
 
-  async function handleGetData() {
+  async function handleGetData(page: number, pageSize: number) {
     tableConfig.value.loading = true
     try {
-      const { code, data } = await getProduct({
-        page: currentPage.value,
-        pageSize: defaultPageSize.value,
+      const { code, data } = await props.getTableData({
+        page,
+        pageSize,
       })
 
       if (code !== 0)
         return
 
+      // @ts-ignore
       tableData.value = data.list
+      // @ts-ignore
+
       total.value = data.total
 
       // 数据加载完成后，如果需要可以手动设置选中状态
@@ -111,39 +65,16 @@ export function setupTable() {
     }
   }
 
-  function handleClear() {
-    tableData.value = []
-    // 清空选中状态
-    selectedRows.value = []
-    if (tableRef.value) {
-      tableRef.value.clearCheckboxRow()
-    }
-  }
-
-  function handleChangeCurrentPage(page: number) {
-    currentPage.value = page
-    handleGetData()
-  }
-
-  function handleChangePageSize(val: number) {
-    defaultPageSize.value = val
-    currentPage.value = 1
-    handleGetData()
-  }
-
   // 获取所有选中数据的方法
   const getSelectedData = () => {
     return selectedRows.value
   }
 
-  function initTable() {
-    tableConfig.value = Object.assign(oldTableConfig.value, props.tableConfig)
-    tableColumns.value = props.tableColumns
-    console.log(tableColumns.value, 'tableColumns')
-  }
+  watchEffect(async () => {
+    await handleGetData(currentPage.value, defaultPageSize.value)
+  })
   onMounted(async () => {
-    await initTable()
-    await handleGetData()
+    await handleGetData(currentPage.value, defaultPageSize.value)
   })
 
   return {
@@ -157,10 +88,7 @@ export function setupTable() {
     selectedRows,
     getSelectedData,
     handleSelectionChange,
-    handleClear,
     handleGetData,
-    handleChangeCurrentPage,
-    handleChangePageSize,
-    userTitlePrefix,
+
   }
 }
