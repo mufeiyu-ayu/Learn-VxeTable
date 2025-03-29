@@ -4,8 +4,8 @@ import type { CustomVxeColumnProps, TableProps } from './types/table.ts'
 import { ElPagination } from 'element-plus'
 import { defineComponent } from 'vue'
 import { VxeTable } from 'vxe-table'
-import { renderOperationColumn } from './components/tabel-operation.tsx'
-import { renderColumn } from './components/table.column.tsx'
+import { renderOperationColumn } from './components/table-operation'
+import { renderColumn } from './components/table.column'
 import { setupTable } from './hooks/table-hooks.ts'
 // 定义要暴露的方法和属性的类型
 export interface TableExposeInstance {
