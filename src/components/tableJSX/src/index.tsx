@@ -31,7 +31,6 @@ export default defineComponent({
     },
   },
   setup(props: TableProps, { expose }) {
-    console.log(props.tableConfig.border, 'props')
     const {
       tableConfig,
       total,
@@ -44,7 +43,7 @@ export default defineComponent({
       handleChangePageSize,
       handleSelectionChange,
     } = setupTable()
-
+    console.log(tableColumns, 'tableColumns')
     expose({
       a: 1,
       tableRef,
@@ -65,12 +64,14 @@ export default defineComponent({
                 empty: () => <span>没有更多数据啦</span>,
               }}
             >
+
               {tableColumns.value.map((column: CustomVxeColumnProps) => renderColumn(column))}
               {renderOperationColumn(props)}
             </VxeTable>
           </div>
 
           <div class="flex h-[100px] justify-end mt-10">
+            {tableColumns}
             <ElPagination
               v-model:currentPage={currentPage.value}
               layout="total, sizes, prev, pager, next jumper"

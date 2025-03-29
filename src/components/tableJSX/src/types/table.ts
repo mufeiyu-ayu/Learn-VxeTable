@@ -1,4 +1,5 @@
-import type { OrderRecord } from '@/apis'
+import type { OrderRecord, OrderRecordList } from '@/apis'
+import type { CommonResultType } from '@ayu-mu/model'
 import type { JSX } from 'vue/jsx-runtime'
 import type { VxeColumnProps } from 'vxe-table'
 
@@ -8,10 +9,7 @@ export interface TableProps {
     // 其他配置项
   }
   tableColumns: VxeColumnProps[]
-  getTableData: (params: { page: number, pageSize: number }) => Promise<{
-    data: unknown[]
-    total: number
-  }>
+  getTableData: (params: unknown) => Promise<CommonResultType<OrderRecordList>>
 }
 
 export interface CustomVxeColumnProps extends Omit<VxeColumnProps, 'slots'> {

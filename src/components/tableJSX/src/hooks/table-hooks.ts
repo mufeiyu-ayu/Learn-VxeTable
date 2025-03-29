@@ -11,7 +11,7 @@ export function setupTable() {
   const tableData = ref<OrderRecord[]>([])
   const defaultPageSize = ref<number>(10)
   const currentPage = ref<number>(1)
-  const tableColumns = ref<VxeColumnProps[]>()
+  const tableColumns = ref<VxeColumnProps[]>([])
   const total = ref<number>()
 
   // 存储选中的行数据
@@ -139,6 +139,7 @@ export function setupTable() {
   function initTable() {
     tableConfig.value = Object.assign(oldTableConfig.value, props.tableConfig)
     tableColumns.value = props.tableColumns
+    console.log(tableColumns.value, 'tableColumns')
   }
   onMounted(async () => {
     await initTable()
