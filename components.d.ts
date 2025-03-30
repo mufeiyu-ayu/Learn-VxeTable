@@ -13,6 +13,5 @@ declare module 'vue' {
     ElPagination: typeof import('element-plus/es')['ElPagination']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Table: typeof import('./src/components/table/index.vue')['default']
   }
 }

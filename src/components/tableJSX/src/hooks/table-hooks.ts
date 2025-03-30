@@ -1,13 +1,13 @@
 import type { OrderRecord } from '@/apis'
 import type { VxeTableInstance } from 'vxe-table'
 import type { TableProps } from '../types'
-import { getCurrentInstance, nextTick, ref, watchEffect } from 'vue'
+import { getCurrentInstance, nextTick, onMounted, ref, watchEffect } from 'vue'
 import { useTableConfig } from './table.config'
 
 export function setupTable() {
   const instance = getCurrentInstance()
   const props = instance.props as unknown as TableProps
-  console.log(props, 'props')
+
   const { initTableConfig } = useTableConfig(props)
   const { tableConfig, tableColumns } = initTableConfig()
   const tableRef = ref<VxeTableInstance>()
@@ -40,8 +40,6 @@ export function setupTable() {
         return
 
       tableData.value = data.list
-      // @ts-ignore
-
       total.value = data.total
 
       // 数据加载完成后，如果需要可以手动设置选中状态
@@ -76,6 +74,12 @@ export function setupTable() {
     await handleGetData()
   })
 
+  onMounted(async () => {
+    // 确保在组件完全挂载后执行
+    await nextTick() // 再等一次，确保 DOM 完全更新
+    tableRef.value?.recalculate(true)
+  })
+
   return {
     tableConfig,
     tableColumns,
@@ -89,6 +93,5 @@ export function setupTable() {
     getSelectedData,
     handleSelectionChange,
     handleGetData,
-
   }
 }

@@ -10,6 +10,7 @@ export function useTableConfig(props: TableProps) {
     scrollX: { enabled: true },
     height: '100%',
     autoResize: true,
+    syncResize: true,
     size: 'medium',
     loading: true,
     border: true,

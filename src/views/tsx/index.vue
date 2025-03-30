@@ -34,8 +34,15 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
       titlePrefix: {
         content: 'userTitlePrefix',
       },
-      render: () => {
-        return <ElButton>hello world</ElButton>
+      render: ({ row }) => {
+        return (
+          <ElButton onClick={() => {
+            console.log(row, 'row')
+          }}
+          >
+            hello world
+          </ElButton>
+        )
       },
     },
     {
@@ -86,6 +93,23 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
     a: 1,
     b: 2,
   },
+  operationConfig: {
+    deletHandle: () => {
+      console.log('删除')
+    },
+    render: ({ row }) => {
+      return (
+        <ElButton
+          type="primary"
+          onClick={() => {
+            console.log(row, 'row')
+          }}
+        >
+          编辑
+        </ElButton>
+      )
+    },
+  },
 })
 function handleSearch() {
   tableBind.value.queryContion = {
@@ -97,19 +121,17 @@ function handleSearch() {
 
 <template>
   <div class="w-full h-full flex flex-col">
-    <div>
+    <div class="h-1/4 flex-none">
       <ElButton @click="handleSearch">
         点击
       </ElButton>
     </div>
-    <div class="w-[80%] h-[700px]">
+    <div class="w-full flex-1 min-h-0 overflow-hidden">
       <DataGrid ref="tableRef" v-bind="tableBind" />
     </div>
   </div>
 </template>
 
 <style scoped>
-:deep(.vxe-table--body) {
-  height: 100% !important;
-}
+
 </style>

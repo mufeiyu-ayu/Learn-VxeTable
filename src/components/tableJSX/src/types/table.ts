@@ -27,12 +27,12 @@ export interface TableProps<T = unknown> {
   queryContion?: Record<string, unknown>
   showOperation?: boolean
   operationConfig?: {
-    delete: {
-      type: 'primary' | 'danger'
-      label: string
-      visible: boolean
-    }
-
+    coumnConfig?: VxeColumnProps
+    render?: Render<T>
+    /**   是否显示删除 */
+    hideDelete?: boolean
+    /**  删除操作 */
+    deletHandle?: () => void
   }
 }
 

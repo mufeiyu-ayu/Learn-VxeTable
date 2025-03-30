@@ -24,13 +24,12 @@ export const ColumnItem = defineComponent({
       <VxeColumn
         {...(props.column as VxeColumnProps)}
         key={props.column.field}
+
         v-slots={{
-          default: ({ row, rowIndex }) => {
-            if (props.column.render) {
-              return props.column.render({ row, column: props.column, $index: rowIndex })
-            }
-            return row[props.column.field as string]
-          },
+          default: ({ row, rowIndex }) =>
+            props.column.render
+              ? props.column.render({ row, column: props.column, $index: rowIndex })
+              : row[props.column.field as string],
         }}
       />
     )

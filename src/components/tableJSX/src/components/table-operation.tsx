@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import type { TableProps } from '../types'
+import type { TableProps } from '../types/table'
 import { ElButton } from 'element-plus'
 import { defineComponent } from 'vue'
 import { VxeColumn } from 'vxe-table'
@@ -10,7 +10,7 @@ export const OperationColumn = defineComponent({
   name: 'OperationColumn',
   props: {
     config: {
-      type: Object as PropType<TableProps>,
+      type: Object as PropType<TableProps['operationConfig']>,
       required: true,
     },
   },
@@ -20,16 +20,16 @@ export const OperationColumn = defineComponent({
 
     return () => (
       <VxeColumn
-        field="operation"
-        fixed="right"
-        minWidth={200}
-        title="操作"
+        {...props.config?.coumnConfig}
+        title={props.config?.coumnConfig?.title || '操作'}
+        fixed={props.config?.coumnConfig?.fixed || 'right'}
+        minWidth={props.config?.coumnConfig?.minWidth || 200}
         v-slots={{
-          default: () => (
-            <>
-              <ElButton type="primary">编辑</ElButton>
-              <ElButton type="danger">删除</ElButton>
-            </>
+          default: ({ row, rowIndex }) => (
+            <div class="flex w-full justify-center items-center gap-2">
+              {props.config?.render?.({ row, column: props.config, $index: rowIndex })}
+              {!props.config?.hideDelete && <ElButton type="danger">删除</ElButton>}
+            </div>
           ),
         }}
       />
