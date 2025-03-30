@@ -48,11 +48,15 @@ export function useTable() {
         order: 'desc', // desc降序 asc 升序
       },
     },
-    treeConfig: {
-      transform: true,
-      rowField: 'id',
-      parentField: 'parentId',
+    editConfig: {
+      trigger: 'click',
+      mode: 'row',
     },
+    // treeConfig: {
+    //   transform: true,
+    //   rowField: 'id',
+    //   parentField: 'parentId',
+    // },
   })
 
   const userTitlePrefix = ref({

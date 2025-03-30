@@ -53,7 +53,7 @@ const {
             row-resize
           />
           <VxeColumn field="userId" title="uerId" :title-prefix="userTitlePrefix" />
-          <VxeColumn field="parentId" title="父级id" />
+          <VxeColumn field="parentId" title="父级id" :edit-render="{ name: 'VxeInput' }" />
           <VxeColumn field="product_name" title="商品名称dadasasdasdasdasdasdasdasdas" />
           <VxeColumn field="product_code" title="商品编码" />
           <VxeColumn field="meno" title="备注" />
