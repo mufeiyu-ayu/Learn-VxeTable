@@ -1,7 +1,8 @@
 import type { OrderRecord, OrderRecordList } from '@/apis'
 import type { CommonResultType } from '@ayu-mu/model'
+import type { Ref } from 'vue'
 import type { JSX } from 'vue/jsx-runtime'
-import type { VxeColumnProps } from 'vxe-table'
+import type { VxeColumnProps, VxeTableInstance } from 'vxe-table'
 import type { Render } from './types'
 
 export interface CustomVxeColumnProps extends Omit<VxeColumnProps, 'slots'> {
@@ -23,8 +24,8 @@ export interface TableProps<T = unknown> {
   /*   请求 */
   getTableData: (params: unknown) => Promise<CommonResultType<OrderRecordList>>
   /*  查询条件 */
-  queryContion: Record<string, unknown>
-  showOperation: boolean
+  queryContion?: Record<string, unknown>
+  showOperation?: boolean
   operationConfig?: {
     delete: {
       type: 'primary' | 'danger'
@@ -33,4 +34,13 @@ export interface TableProps<T = unknown> {
     }
 
   }
+}
+
+export interface TableExposeInstance {
+  a: number
+  tableRef: Ref<VxeTableInstance> | undefined
+  /**   获取表格数据  */
+  handleGetData: () => void
+  // 可以继续添加其他要暴露的方法
+  // getSelectedRows?: () => any[]
 }

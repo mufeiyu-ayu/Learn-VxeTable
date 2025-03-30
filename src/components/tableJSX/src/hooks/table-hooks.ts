@@ -1,13 +1,13 @@
 import type { OrderRecord } from '@/apis'
 import type { VxeTableInstance } from 'vxe-table'
-import type { TableProps } from '../types/table'
-import { getCurrentInstance, nextTick, onMounted, ref, watchEffect } from 'vue'
+import type { TableProps } from '../types'
+import { getCurrentInstance, nextTick, ref, watchEffect } from 'vue'
 import { useTableConfig } from './table.config'
 
 export function setupTable() {
   const instance = getCurrentInstance()
   const props = instance.props as unknown as TableProps
-
+  console.log(props, 'props')
   const { initTableConfig } = useTableConfig(props)
   const { tableConfig, tableColumns } = initTableConfig()
   const tableRef = ref<VxeTableInstance>()
@@ -27,18 +27,18 @@ export function setupTable() {
     selectedRows.value = selection
   }
 
-  async function handleGetData(page: number, pageSize: number) {
+  async function handleGetData() {
     tableConfig.value.loading = true
     try {
       const { code, data } = await props.getTableData({
-        page,
-        pageSize,
+        page: currentPage.value,
+        pageSize: defaultPageSize.value,
+        ...props?.queryContion || null,
       })
 
       if (code !== 0)
         return
 
-      // @ts-ignore
       tableData.value = data.list
       // @ts-ignore
 
@@ -72,10 +72,8 @@ export function setupTable() {
   }
 
   watchEffect(async () => {
-    await handleGetData(currentPage.value, defaultPageSize.value)
-  })
-  onMounted(async () => {
-    await handleGetData(currentPage.value, defaultPageSize.value)
+    // 自动追踪 currentPage，defaultPageSize，以及 props.queryContion
+    await handleGetData()
   })
 
   return {

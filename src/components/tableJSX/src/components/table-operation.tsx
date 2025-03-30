@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import type { TableProps } from '../types/table'
+import type { TableProps } from '../types'
 import { ElButton } from 'element-plus'
 import { defineComponent } from 'vue'
 import { VxeColumn } from 'vxe-table'

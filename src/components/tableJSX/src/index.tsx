@@ -1,6 +1,5 @@
-import type { PropType, Ref } from 'vue'
-import type { VxeTableInstance } from 'vxe-table'
-import type { CustomVxeColumnProps, TableProps } from './types/table.ts'
+import type { PropType } from 'vue'
+import type { CustomVxeColumnProps, TableExposeInstance, TableProps } from './types'
 import { ElPagination } from 'element-plus'
 import { defineComponent } from 'vue'
 import { VxeTable } from 'vxe-table'
@@ -8,18 +7,12 @@ import { OperationColumn } from './components/table-operation'
 import { ColumnItem } from './components/table.column'
 import { setupTable } from './hooks/table-hooks.ts'
 // 定义要暴露的方法和属性的类型
-export interface TableExposeInstance {
-  a: number
-  tableRef: Ref<VxeTableInstance> | undefined
-  // 可以继续添加其他要暴露的方法
-  // getSelectedRows?: () => any[]
-}
+
 export default defineComponent({
   name: 'DataGrid',
   props: {
     tableConfig: {
       type: Object as PropType<TableProps['tableConfig']>,
-      required: true,
     },
     tableColumns: {
       type: Array as PropType<TableProps['tableColumns']>,
@@ -32,7 +25,7 @@ export default defineComponent({
     showOperation: {
       type: Boolean as PropType<TableProps['showOperation']>,
       default: true,
-      required: true,
+
     },
     operationConfig: {
       type: Object as PropType<TableProps['operationConfig']>,
@@ -43,8 +36,12 @@ export default defineComponent({
         },
       }),
     },
+    queryContion: {
+      type: Object as PropType<TableProps['showOperation']>,
+    },
   },
   setup(props: TableProps, { expose }) {
+    console.log(props, 'props')
     const {
       tableConfig,
       total,
@@ -54,12 +51,14 @@ export default defineComponent({
       tableRef,
       currentPage,
       handleSelectionChange,
+      handleGetData,
       showOperation,
     } = setupTable()
 
     expose({
       a: 1,
       tableRef,
+      handleGetData,
     } as TableExposeInstance)
 
     return () => (

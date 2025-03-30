@@ -1,17 +1,20 @@
 <script setup lang="tsx">
 import type { OrderRecord } from '@/apis'
+import type { TableExposeInstance } from '@/components/tableJSX/index.ts'
 import type { TableProps } from '@/components/tableJSX/src/types/table.ts'
 import { getProduct } from '@/apis'
 import { DataGrid } from '@/components/tableJSX/index.ts'
 import { ElButton } from 'element-plus'
+import { ref } from 'vue'
 
-const tableBind: TableProps<Partial<OrderRecord>> = {
+const tableRef = ref<TableExposeInstance>()
+const tableBind = ref<TableProps<Partial<OrderRecord>>>({
   tableConfig: {
     border: true,
   },
   tableColumns: [
     {
-      type: 'checkbox' as const,
+      type: 'checkbox',
       field: 'checkbox',
       minWidth: 40,
     },
@@ -77,15 +80,30 @@ const tableBind: TableProps<Partial<OrderRecord>> = {
       visible: false,
     },
   ],
-
+  showOperation: true,
   getTableData: getProduct,
+  queryContion: {
+    a: 1,
+    b: 2,
+  },
+})
+function handleSearch() {
+  tableBind.value.queryContion = {
+    a: 2,
+    c: 2,
+  }
 }
 </script>
 
 <template>
   <div class="w-full h-full flex flex-col">
+    <div>
+      <ElButton @click="handleSearch">
+        点击
+      </ElButton>
+    </div>
     <div class="w-[80%] h-[700px]">
-      <DataGrid v-bind="tableBind" />
+      <DataGrid ref="tableRef" v-bind="tableBind" />
     </div>
   </div>
 </template>
