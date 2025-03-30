@@ -13,6 +13,7 @@ export function useTable() {
   // 存储选中的行数据
   const selectedRows = ref<OrderRecord[]>([])
   console.log(11111)
+  console.log(22222)
   const tableConfig = ref<VxeTableProps>({
     scrollX: { enabled: true },
     height: '100%',
