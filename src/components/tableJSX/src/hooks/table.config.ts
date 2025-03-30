@@ -8,9 +8,8 @@ export function useTableConfig(props: TableProps) {
 
   const oldTableConfig = ref<VxeTableProps>({
     scrollX: { enabled: true },
-    // height: '100%',
-    maxHeight: 'auto',
-    // height:'100%',
+    height: '100%',
+    maxHeight: '100%',
     autoResize: true,
     syncResize: true,
     size: 'medium',
@@ -25,6 +24,7 @@ export function useTableConfig(props: TableProps) {
       resizable: true,
     },
     rowConfig: {
+      // height:100,
       isHover: true,
       keyField: 'id', // 指定行数据的唯一标识字段
       resizable: true,
@@ -46,7 +46,7 @@ export function useTableConfig(props: TableProps) {
         ...column,
         minWidth: column.minWidth || 60,
         maxWidth: column.maxWidth || 200,
-        resizable: column.resizable || true,
+        resizable: column.resizable ?? true,
         showOverflow: column.showOverflow || 'tooltip',
         className: column.className || column.field,
       }

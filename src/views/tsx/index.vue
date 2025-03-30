@@ -21,6 +21,7 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
     {
       type: 'seq',
       title: '序号',
+      align: 'center',
     },
     {
       field: 'id',
@@ -36,12 +37,14 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
       },
       render: ({ row }) => {
         return (
-          <ElButton onClick={() => {
-            console.log(row, 'row')
-          }}
-          >
-            hello world
-          </ElButton>
+          <div class=" flex justify-center items-center bg-amber-200">
+            <ElButton onClick={() => {
+              console.log(row, 'row')
+            }}
+            >
+              hello world
+            </ElButton>
+          </div>
         )
       },
     },
@@ -53,7 +56,7 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
     {
       field: 'product_name',
       title: '商品名称dadasasdasdasdasdasdasdasdas',
-      width: 300,
+      width: 200,
     },
     {
       field: 'product_code',
@@ -121,12 +124,12 @@ function handleSearch() {
 
 <template>
   <div class="w-full h-full flex flex-col">
-    <div class="h-[50px] w-full">
+    <div class="h-[30px] w-full">
       <ElButton @click="handleSearch">
         点击
       </ElButton>
     </div>
-    <div class="w-full flex-1">
+    <div class="w-full h-[calc(100%-30px)]">
       <DataGrid ref="tableRef" v-bind="tableBind" />
     </div>
   </div>
