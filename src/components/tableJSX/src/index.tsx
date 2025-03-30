@@ -56,8 +56,8 @@ export default defineComponent({
     } as TableExposeInstance)
 
     return () => (
-      <div class="w-full h-full flex flex-col">
-        <div class="flex-1 w-full min-h-0">
+      <div class="w-full h-full flex flex-col overflow-hidden">
+        <div class="flex-1 w-full">
           <VxeTable
             ref={tableRef}
             {...tableConfig.value}

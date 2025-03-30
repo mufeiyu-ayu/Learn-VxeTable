@@ -8,7 +8,9 @@ export function useTableConfig(props: TableProps) {
 
   const oldTableConfig = ref<VxeTableProps>({
     scrollX: { enabled: true },
-    height: '100%',
+    // height: '100%',
+    maxHeight: 'auto',
+    // height:'100%',
     autoResize: true,
     syncResize: true,
     size: 'medium',

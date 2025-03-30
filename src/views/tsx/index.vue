@@ -121,12 +121,12 @@ function handleSearch() {
 
 <template>
   <div class="w-full h-full flex flex-col">
-    <div class="h-1/4 flex-none">
+    <div class="h-[50px] w-full">
       <ElButton @click="handleSearch">
         点击
       </ElButton>
     </div>
-    <div class="w-full flex-1 min-h-0 overflow-hidden">
+    <div class="w-full flex-1">
       <DataGrid ref="tableRef" v-bind="tableBind" />
     </div>
   </div>
