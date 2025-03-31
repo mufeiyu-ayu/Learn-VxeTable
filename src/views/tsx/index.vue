@@ -37,7 +37,7 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
       },
       render: ({ row }) => {
         return (
-          <div class=" flex justify-center items-center bg-amber-200">
+          <div class=" flex justify-center  items-center ">
             <ElButton onClick={() => {
               console.log(row, 'row')
             }}
@@ -114,22 +114,19 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
     },
   },
 })
-function handleSearch() {
-  tableBind.value.queryContion = {
-    a: 2,
-    c: 2,
-  }
-}
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col">
-    <div class="h-[30px] w-full">
-      <ElButton @click="handleSearch">
+  <div class="w-full h-full flex flex-col gap-5">
+    <div class="h-[200px] w-full">
+      查询条件
+    </div>
+    <div>
+      <ElButton>
         点击
       </ElButton>
     </div>
-    <div class="w-full h-[calc(100%-30px)]">
+    <div class="w-full flex-1">
       <DataGrid ref="tableRef" v-bind="tableBind" />
     </div>
   </div>

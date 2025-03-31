@@ -2,7 +2,8 @@ import type { OrderRecord } from '@/apis'
 import type { VxeTableInstance } from 'vxe-table'
 import type { TableProps } from '../types'
 import { getCurrentInstance, nextTick, onMounted, ref, watchEffect } from 'vue'
-import { useTableConfig } from './table.config'
+import { useTableConfig } from './table-config-hooks'
+import { useTableSelection } from './useTableSelection'
 
 export function setupTable() {
   const instance = getCurrentInstance()
@@ -17,44 +18,37 @@ export function setupTable() {
   const total = ref<number>()
   /*   是否显示操作列 */
   const showOperation = ref<boolean>(props.showOperation)
-  // 存储选中的行数据
-  const selectedRows = ref<OrderRecord[]>([])
 
-  // 处理选择变化
-  const handleSelectionChange = () => {
-    // 通过 tableRef 获取当前选中的所有行数据
-    const selection = tableRef.value?.getCheckboxRecords() || []
-    selectedRows.value = selection
-  }
+  // 使用选择状态管理 hook
+  const {
+    selectedRows,
+    handleSelectionChange,
+    clearSelection,
+    setSelection,
+    restorePageSelection,
+  } = useTableSelection(tableRef, tableData)
 
+  /**  获取列表数据 */
   async function handleGetData() {
     tableConfig.value.loading = true
+    // 延迟 3 秒
+    await new Promise(resolve => setTimeout(resolve, 900))
     try {
-      const { code, data } = await props.getTableData({
-        page: currentPage.value,
-        pageSize: defaultPageSize.value,
+      const res = await props.getTableData({
+        current: currentPage.value,
+        size: defaultPageSize.value,
         ...props?.queryContion || null,
       })
-
-      if (code !== 0)
+      // @ts-ignore
+      if (res?.records?.length === 0)
         return
+      // @ts-ignore
+      tableData.value = res.records
+      // @ts-ignore
+      total.value = res.total
 
-      tableData.value = data.list
-      total.value = data.total
-
-      // 数据加载完成后，如果需要可以手动设置选中状态
-      nextTick(() => {
-        if (tableRef.value) {
-          // 找出当前页面中应该被选中的行
-          const currentPageSelectedRows = tableData.value.filter(row =>
-            selectedRows.value.some(selected => selected.id === row.id),
-          )
-          // 重新选中这些行
-          currentPageSelectedRows.forEach((row) => {
-            tableRef.value?.setCheckboxRow(row, true)
-          })
-        }
-      })
+      // 恢复选中状态
+      restorePageSelection()
     }
     catch (error) {
       console.error('获取数据失败：', error)
@@ -93,5 +87,7 @@ export function setupTable() {
     getSelectedData,
     handleSelectionChange,
     handleGetData,
+    clearSelection,
+    setSelection,
   }
 }

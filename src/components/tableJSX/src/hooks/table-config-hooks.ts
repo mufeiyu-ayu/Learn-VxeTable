@@ -24,7 +24,7 @@ export function useTableConfig(props: TableProps) {
       resizable: true,
     },
     rowConfig: {
-      // height:100,
+      height: 100,
       isHover: true,
       keyField: 'id', // 指定行数据的唯一标识字段
       resizable: true,
@@ -57,7 +57,6 @@ export function useTableConfig(props: TableProps) {
     }
   }
   return {
-
     initTableConfig,
   }
 }

@@ -2,10 +2,11 @@ import type { PropType } from 'vue'
 import type { CustomVxeColumnProps, TableExposeInstance, TableProps } from './types'
 import { ElPagination } from 'element-plus'
 import { defineComponent } from 'vue'
-import { VxeTable } from 'vxe-table'
+import { VxeColumn, VxeTable } from 'vxe-table'
 import { OperationColumn } from './components/table-operation'
 import { ColumnItem } from './components/table.column'
 import { setupTable } from './hooks/table-hooks.ts'
+
 import './styles/index.css'
 // 定义要暴露的方法和属性的类型
 
@@ -50,10 +51,9 @@ export default defineComponent({
     } = setupTable()
 
     expose({
-      a: 1,
       tableRef,
       handleGetData,
-    } as TableExposeInstance)
+    } as unknown as TableExposeInstance)
 
     return () => (
       <div class="w-full h-full flex flex-col overflow-hidden">
@@ -68,9 +68,11 @@ export default defineComponent({
               empty: () => <span>没有更多数据啦</span>,
             }}
           >
+            <VxeColumn type="checkbox" width={60} fixed="left" />
+            <VxeColumn type="seq" fixed="left" />
             {columns.value.map((column: CustomVxeColumnProps) => <ColumnItem column={column} />)}
             {/* 操作项 */}
-            {showOperation.value && <OperationColumn config={props.operationConfig} />}
+            {showOperation.value && <OperationColumn handleGetData={handleGetData} operationConfig={props.operationConfig} />}
           </VxeTable>
         </div>
 
