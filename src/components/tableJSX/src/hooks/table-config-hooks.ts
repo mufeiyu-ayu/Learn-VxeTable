@@ -10,8 +10,6 @@ export function useTableConfig(props: TableProps) {
     scrollX: { enabled: true },
     height: '100%',
     maxHeight: '100%',
-    autoResize: true,
-    syncResize: true,
     size: 'medium',
     loading: true,
     border: true,
@@ -26,13 +24,13 @@ export function useTableConfig(props: TableProps) {
     rowConfig: {
       height: 100,
       isHover: true,
-      keyField: 'id', // 指定行数据的唯一标识字段
+      useKey: true,
+      // keyField: 'id', // 指定行数据的唯一标识字段
       resizable: true,
     },
     checkboxConfig: {
-      // reserve: false, // 保留选中状态
       highlight: true, // 高亮选中状态
-      range: true, // 开启复选框范围选择功能，启用后通过鼠标在复选框的列内滑动选中或
+      // range: true, // 开启复选框范围选择功能，启用后通过鼠标在复选框的列内滑动选中或
     },
   })
 

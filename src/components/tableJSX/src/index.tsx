@@ -13,6 +13,10 @@ import './styles/index.css'
 export default defineComponent({
   name: 'DataGrid',
   props: {
+    uid: {
+      type: String as PropType<TableProps['uid']>,
+      required: true,
+    },
     tableConfig: {
       type: Object as PropType<TableProps['tableConfig']>,
     },
@@ -48,11 +52,13 @@ export default defineComponent({
       handleSelectionChange,
       handleGetData,
       showOperation,
+
     } = setupTable()
 
     expose({
       tableRef,
       handleGetData,
+      // getSelectedRows,
     } as unknown as TableExposeInstance)
 
     return () => (
@@ -76,7 +82,7 @@ export default defineComponent({
           </VxeTable>
         </div>
 
-        <div class="flex justify-end box  py-10">
+        <div class="flex justify-end box py-10 pr-10">
           <ElPagination
             v-model:currentPage={currentPage.value}
             layout="total, sizes, prev, pager, next jumper"

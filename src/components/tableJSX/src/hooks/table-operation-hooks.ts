@@ -10,7 +10,6 @@ export function useTableOperation({
   handleGetData,
 }: UseTableOperationProps) {
   const handleDelete = async (row: unknown) => {
-    console.log(row, 'row')
     try {
       await operationConfig?.deletHandle?.(row[operationConfig?.deleteParams])
       ElMessage.success('删除成功')

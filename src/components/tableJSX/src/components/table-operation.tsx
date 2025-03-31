@@ -20,9 +20,6 @@ export const OperationColumn = defineComponent({
     },
   },
   setup(props) {
-    // 只会在组件初始化时执行一次
-    // console.log(props.operationConfig, 'props')
-    console.log(props, 'props')
     const { handleDelete } = useTableOperation({
       operationConfig: props.operationConfig,
       handleGetData: props.handleGetData as () => void,

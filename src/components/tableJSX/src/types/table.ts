@@ -11,6 +11,7 @@ export interface CustomVxeColumnProps extends Omit<VxeColumnProps, 'slots'> {
 }
 
 export interface TableProps<T = unknown> {
+  uid: string
   tableConfig?: VxeTableProps
   tableColumns: (VxeColumnProps & {
     render?: Render<T>
@@ -30,7 +31,9 @@ export interface TableProps<T = unknown> {
     deletHandle?: (params: unknown) => void
     deleteParams?: string
   }
+  /**  是否隐藏复选框 */
   hideCheckbox?: boolean
+  /**  是否隐藏序号 */
   hideSeq?: boolean
 }
 
@@ -38,5 +41,5 @@ export interface TableExposeInstance {
   tableRef: VxeTableInstance
   handleGetData: () => Promise<void>
   // 可以继续添加其他要暴露的方法
-  // getSelectedRows?: () => any[]
+  getSelectedRows?: () => unknown[]
 }

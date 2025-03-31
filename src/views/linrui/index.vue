@@ -3,6 +3,7 @@ import type { CatalogueItem } from '@/apis2'
 import type { TableExposeInstance } from '@/components/tableJSX/index.ts'
 import type { TableProps } from '@/components/tableJSX/src/types/table.ts'
 import { deleteCardGoods, getCardGoods } from '@/apis2'
+import { ActionBar } from '@/components/actionBar/index.ts'
 import { DataGrid } from '@/components/tableJSX/index.ts'
 import { ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { ref } from 'vue'
@@ -17,6 +18,7 @@ const tableBind = ref<TableProps<Partial<CatalogueItem>>>({
     {
       field: 'catalogueName',
       title: '游戏名称',
+      width: 800,
     },
     {
       field: 'platformName',
@@ -57,6 +59,8 @@ const tableBind = ref<TableProps<Partial<CatalogueItem>>>({
     },
   ],
   showOperation: true,
+  hideCheckbox: true,
+  hideSeq: true,
   getTableData: getCardGoods,
   queryContion: {
     gameType: 0,
@@ -66,38 +70,38 @@ const tableBind = ref<TableProps<Partial<CatalogueItem>>>({
     deleteParams: 'catalogueId',
     render: ({ row }) => {
       return (
-        <ElButton
-          type="primary"
-          onClick={() => {
-            const res = tableRef.value?.tableRef.isCheckedByCheckboxRow(row)
-            console.log(res, 'res')
-          }}
-        >
-          编辑
-        </ElButton>
+        <>
+          <ElButton
+            type="primary"
+            onClick={() => {
+              const res = tableRef.value?.tableRef.isCheckedByCheckboxRow(row)
+              console.log(res, 'res')
+            }}
+          >
+            编辑
+          </ElButton>
+          <ElButton
+            type="primary"
+            onClick={() => {
+              console.log(tableRef.value?.getSelectedRows(), 'tableRef.value?.getSelectedData()')
+            }}
+          >
+            查看
+          </ElButton>
+        </>
+
       )
     },
   },
 })
-function handleSearch() {
-  tableBind.value.queryContion = {
-    a: 2,
-    c: 2,
-  }
-}
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col gap-5">
-    <div class="h-[200px] w-full">
-      查询条件
+  <div class="w-full h-full flex flex-col gap-4">
+    <div class="h-[50px]  flex items-center">
+      <ActionBar />
     </div>
-    <div>
-      <ElButton @click="handleSearch">
-        点击
-      </ElButton>
-    </div>
-    <div class="w-full flex-1">
+    <div class="w-full flex-1 h-[calc(100%-50px)]">
       <DataGrid ref="tableRef" v-bind="tableBind" />
     </div>
   </div>

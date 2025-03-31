@@ -19,7 +19,7 @@ export default antfu(
   {
     files: ['**/*{.vue,.js,.ts,}'],
     rules: {
-      'no-console': import.meta.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-console': 'off',
       'no-multi-assign': 'off',
       'ts/no-explicit-any': 'error',
       'ts/max-params': ['error', { max: 3 }],
