@@ -48,7 +48,9 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:5177',
+        // target: 'http://192.168.8.252:9100/',
         changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, '') // 如果不需要/api前缀，可以取消注释
       },
     },
   },

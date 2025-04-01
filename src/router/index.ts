@@ -1,8 +1,9 @@
 import Learn1 from '@/views/basic/index.vue'
 import Learn3 from '@/views/checkbox/index.vue'
 import Edit from '@/views/edit/index.vue'
+import LinRui from '@/views/linrui/index.vue'
+import Login from '@/views/login/index.vue'
 import Learn2 from '@/views/mergeCells/index.vue'
-import Learn4 from '@/views/render/index.vue'
 import Tsx from '@/views/tsx/index.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -12,7 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Learn1,
+      component: Login,
     },
     {
       path: '/learn1',
@@ -30,11 +31,6 @@ const router = createRouter({
       component: Learn3,
     },
     {
-      path: '/learn4',
-      name: 'learn4',
-      component: Learn4,
-    },
-    {
       path: '/edit',
       name: 'edit',
       component: Edit,
@@ -43,6 +39,11 @@ const router = createRouter({
       path: '/tsx',
       name: 'tsx',
       component: Tsx,
+    },
+    {
+      path: '/linrui',
+      name: 'linrui',
+      component: LinRui,
     },
   ],
 })

@@ -1,27 +1,53 @@
 <script setup lang="tsx">
 import type { OrderRecord } from '@/apis'
+import type { ActionBarProps } from '@/components/actionBar'
 import type { TableExposeInstance } from '@/components/tableJSX/index.ts'
 import type { TableProps } from '@/components/tableJSX/src/types/table.ts'
+import type { Ref } from 'vue'
 import { getProduct } from '@/apis'
+import { ActionBar } from '@/components/actionBar'
+import { QueryBar } from '@/components/queryBar'
 import { DataGrid } from '@/components/tableJSX/index.ts'
 import { ElButton } from 'element-plus'
+import { v4 as uuidv4 } from 'uuid'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const uid = uuidv4()
 const tableRef = ref<TableExposeInstance>()
+const actionBarRef = ref<InstanceType<typeof ActionBar>>()
+const actionBarBind = ref<ActionBarProps>({
+  uid,
+  handleDeleteAll: async () => {
+    console.log('删除所有')
+    return Promise.resolve(22)
+  },
+  deleteAllParams: 'id',
+  leftButtons: () => {
+    return (
+      <>
+        <ElButton
+          type="primary"
+          onClick={() => {
+            console.log(tableRef.value?.tableRef.getCheckboxRecords(true))
+          }}
+        >
+          新增
+        </ElButton>
+        <ElButton type="success" disabled>
+          批量定制
+        </ElButton>
+      </>
+    )
+  },
+})
 const tableBind = ref<TableProps<Partial<OrderRecord>>>({
+  uid,
   tableConfig: {
     border: true,
   },
   tableColumns: [
-    {
-      type: 'checkbox',
-      field: 'checkbox',
-      minWidth: 40,
-    },
-    {
-      type: 'seq',
-      title: '序号',
-    },
     {
       field: 'id',
       title: 'id',
@@ -36,12 +62,14 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
       },
       render: ({ row }) => {
         return (
-          <ElButton onClick={() => {
-            console.log(row, 'row')
-          }}
-          >
-            hello world
-          </ElButton>
+          <div class=" flex justify-center  items-center ">
+            <ElButton onClick={() => {
+              console.log(row, 'row')
+            }}
+            >
+              hello world
+            </ElButton>
+          </div>
         )
       },
     },
@@ -53,7 +81,7 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
     {
       field: 'product_name',
       title: '商品名称dadasasdasdasdasdasdasdasdas',
-      width: 300,
+      width: 200,
     },
     {
       field: 'product_code',
@@ -111,20 +139,28 @@ const tableBind = ref<TableProps<Partial<OrderRecord>>>({
     },
   },
 })
-function handleSearch() {
-  tableBind.value.queryContion = {
-    a: 2,
-    c: 2,
-  }
+let res = false
+function onClick(selectedRows: Ref<unknown[]>) {
+  console.log('点击', selectedRows.value)
+  res = !res
+  actionBarBind.value.isHideRightButton = res
+  router.push('/learn1')
 }
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col">
-    <div class="h-[50px] w-full">
-      <ElButton @click="handleSearch">
-        点击
-      </ElButton>
+  <div class="w-full h-[80%] flex flex-col">
+    <div>
+      <QueryBar />
+    </div>
+    <div class="h-[80px] flex items-center">
+      <ActionBar v-bind="actionBarBind" ref="actionBarRef">
+        <template #rightButton="{ selectedRows }">
+          <ElButton @click="onClick(selectedRows)">
+            点击
+          </ElButton>
+        </template>
+      </ActionBar>
     </div>
     <div class="w-full flex-1">
       <DataGrid ref="tableRef" v-bind="tableBind" />

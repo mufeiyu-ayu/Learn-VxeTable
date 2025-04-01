@@ -15,9 +15,9 @@ export const ColumnItem = defineComponent({
   },
   setup(props) {
     // 对于特殊类型的列（如 seq、checkbox 等），直接返回 VxeColumn
-    if (props.column.type === 'seq' || props.column.type === 'checkbox') {
-      return () => <VxeColumn {...props.column} key={props.column.type} />
-    }
+    // if (props.column.type === 'seq' || props.column.type === 'checkbox') {
+    //   return () => <VxeColumn {...props.column} key={props.column.type} />
+    // }
 
     // 对于普通列，保持原有的渲染逻辑
     return () => (

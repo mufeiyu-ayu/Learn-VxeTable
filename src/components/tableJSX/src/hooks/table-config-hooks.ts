@@ -9,12 +9,8 @@ export function useTableConfig(props: TableProps) {
   const oldTableConfig = ref<VxeTableProps>({
     scrollX: { enabled: true },
     // height: '100%',
-    maxHeight: 'auto',
-    // height:'100%',
-    autoResize: true,
-    syncResize: true,
+    maxHeight: '100%',
     size: 'medium',
-    loading: true,
     border: true,
     align: 'center',
     round: true,
@@ -25,14 +21,15 @@ export function useTableConfig(props: TableProps) {
       resizable: true,
     },
     rowConfig: {
+      height: 100,
       isHover: true,
-      keyField: 'id', // 指定行数据的唯一标识字段
+      useKey: true,
+      // keyField: 'id', // 指定行数据的唯一标识字段
       resizable: true,
     },
     checkboxConfig: {
-      // reserve: false, // 保留选中状态
       highlight: true, // 高亮选中状态
-      range: true, // 开启复选框范围选择功能，启用后通过鼠标在复选框的列内滑动选中或
+      // range: true, // 开启复选框范围选择功能，启用后通过鼠标在复选框的列内滑动选中或
     },
   })
 
@@ -46,7 +43,7 @@ export function useTableConfig(props: TableProps) {
         ...column,
         minWidth: column.minWidth || 60,
         maxWidth: column.maxWidth || 200,
-        resizable: column.resizable || true,
+        resizable: column.resizable ?? true,
         showOverflow: column.showOverflow || 'tooltip',
         className: column.className || column.field,
       }
@@ -57,7 +54,6 @@ export function useTableConfig(props: TableProps) {
     }
   }
   return {
-
     initTableConfig,
   }
 }

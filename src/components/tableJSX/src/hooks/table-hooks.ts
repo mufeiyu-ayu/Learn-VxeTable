@@ -1,80 +1,113 @@
-import type { OrderRecord } from '@/apis'
 import type { VxeTableInstance } from 'vxe-table'
 import type { TableProps } from '../types'
-import { getCurrentInstance, nextTick, onMounted, ref, watchEffect } from 'vue'
-import { useTableConfig } from './table.config'
+import { EventTypeEnum } from '@/utils/enums'
+import { useEventBus } from '@/utils/eventBus.ts'
+import { ElLoading } from 'element-plus'
+import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
+import { useTableConfig } from './table-config-hooks'
 
 export function setupTable() {
   const instance = getCurrentInstance()
+  const tableContainerRef = ref<HTMLElement>()
   const props = instance.props as unknown as TableProps
-
+  const { emit, on } = useEventBus([
+    /**   复选框选中触发 */
+    `${props.uid}-${EventTypeEnum.DataGrid_ROW_CHANGE}`,
+    /**   actionbar 刷新 */
+    `${props.uid}-${EventTypeEnum.ActionBar_REFRESH}`,
+  ])
+  const selectedRows = ref<unknown[]>([])
   const { initTableConfig } = useTableConfig(props)
   const { tableConfig, tableColumns } = initTableConfig()
   const tableRef = ref<VxeTableInstance>()
-  const tableData = ref<OrderRecord[]>([])
+  const tableData = ref<unknown[]>([])
   const defaultPageSize = ref<number>(10)
   const currentPage = ref<number>(1)
   const total = ref<number>()
   /*   是否显示操作列 */
   const showOperation = ref<boolean>(props.showOperation)
-  // 存储选中的行数据
-  const selectedRows = ref<OrderRecord[]>([])
 
-  // 处理选择变化
-  const handleSelectionChange = () => {
-    // 通过 tableRef 获取当前选中的所有行数据
-    const selection = tableRef.value?.getCheckboxRecords() || []
-    selectedRows.value = selection
+  /**
+   * 清空所有选中状态
+   */
+  const clearSelection = () => {
+    if (tableRef.value) {
+      tableRef.value.clearCheckboxRow()
+    }
   }
 
+  /**  获取列表数据 */
   async function handleGetData() {
-    tableConfig.value.loading = true
+    console.log(tableContainerRef.value, 'tableContainerRef')
+
+    const loading = ElLoading.service({
+      fullscreen: false,
+      text: '加载中',
+      target: tableContainerRef.value,
+      background: 'rgba(255, 255, 255, 0.6)',
+      // customClass: 'vxe-loading-wrapper',
+      lock: true,
+    })
     try {
-      const { code, data } = await props.getTableData({
+      const res = await props.getTableData({
         page: currentPage.value,
         pageSize: defaultPageSize.value,
         ...props?.queryContion || null,
       })
-
-      if (code !== 0)
+      // @ts-ignore
+      if (res?.records?.length === 0)
         return
+      // @ts-ignore
+      // tableData.value = res.records
+      // @ts-ignore
+      // total.value = res.total
 
-      tableData.value = data.list
-      total.value = data.total
-
-      // 数据加载完成后，如果需要可以手动设置选中状态
-      nextTick(() => {
-        if (tableRef.value) {
-          // 找出当前页面中应该被选中的行
-          const currentPageSelectedRows = tableData.value.filter(row =>
-            selectedRows.value.some(selected => selected.id === row.id),
-          )
-          // 重新选中这些行
-          currentPageSelectedRows.forEach((row) => {
-            tableRef.value?.setCheckboxRow(row, true)
-          })
-        }
-      })
+      // ayu
+      tableData.value = res.data.list
+      // @ts-ignore
+      total.value = res.data.total
+      tableRef.value?.clearCheckboxRow()
+      selectedRows.value = []
+      // 恢复选中状态
     }
     catch (error) {
       console.error('获取数据失败：', error)
     }
     finally {
-      tableConfig.value.loading = false
+      loading.close()
     }
   }
 
-  // 获取所有选中数据的方法
-  const getSelectedData = () => {
-    return selectedRows.value
+  /**  监听选中行 */
+  const handleSelectionChange = () => {
+    selectedRows.value = tableRef.value?.getCheckboxRecords(true)
   }
+  watch(
+    [
+      () => currentPage.value,
+      () => defaultPageSize.value,
+      () => props.queryContion,
+    ],
+    async () => {
+      await handleGetData()
+    },
+    // { immediate: true }, // 首次加载时执行一次
+  )
 
-  watchEffect(async () => {
-    // 自动追踪 currentPage，defaultPageSize，以及 props.queryContion
-    await handleGetData()
+  /**  监听选中行 */
+  watch(selectedRows, (newVal) => {
+    emit(EventTypeEnum.DataGrid_ROW_CHANGE, ...newVal)
   })
 
+  const initEvent = () => {
+    on(`${props.uid}-${EventTypeEnum.ActionBar_REFRESH}`, () => {
+      currentPage.value = 1
+      handleGetData()
+    })
+  }
   onMounted(async () => {
+    await handleGetData()
+    initEvent()
     // 确保在组件完全挂载后执行
     await nextTick() // 再等一次，确保 DOM 完全更新
     tableRef.value?.recalculate(true)
@@ -89,9 +122,10 @@ export function setupTable() {
     currentPage,
     total,
     tableData,
-    selectedRows,
-    getSelectedData,
+    tableContainerRef,
     handleSelectionChange,
     handleGetData,
+    clearSelection,
+
   }
 }
