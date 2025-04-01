@@ -5,6 +5,8 @@ export interface ActionBarProps {
   uid: string
   /**  是否隐藏删除按钮 */
   isHideDelete?: boolean
+  /**  是否隐藏右侧按钮 */
+  isHideRightButton?: boolean
   /**  删除参数 */
   deleteAllParams?: string
   /**  删除函数 */

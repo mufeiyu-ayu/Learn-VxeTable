@@ -48,6 +48,7 @@ export default defineComponent({
       defaultPageSize,
       tableColumns: columns,
       tableRef,
+      tableContainerRef,
       currentPage,
       handleSelectionChange,
       handleGetData,
@@ -63,7 +64,7 @@ export default defineComponent({
 
     return () => (
       <div class="w-full h-full flex flex-col overflow-hidden">
-        <div class="flex-1 w-full">
+        <div class="flex-1 w-full h-full" ref={tableContainerRef}>
           <VxeTable
             ref={tableRef}
             {...tableConfig.value}
@@ -82,16 +83,17 @@ export default defineComponent({
           </VxeTable>
         </div>
 
-        <div class="flex justify-end box py-10 pr-10">
+        <div class="flex justify-end items-center my-10  pr-10">
           <ElPagination
             v-model:currentPage={currentPage.value}
             layout="total, sizes, prev, pager, next jumper"
             background
             total={total.value}
-            page-sizes={[10, 20, 30, 300]}
+            page-sizes={[10, 20, 30, 40, 50, 60, 100]}
             v-model:page-size={defaultPageSize.value}
             defaultPageSize={defaultPageSize.value}
           />
+          {/* <div class="h-[50px]"></div> */}
         </div>
       </div>
     )

@@ -29,7 +29,7 @@ const {
         </ElButton>
       </div>
     </div>
-    <div class="w-[80%] h-[600px] flex-1 flex flex-col justify-between">
+    <div class="w-[80%] h-[800px] flex-1 flex flex-col justify-between">
       <div class="flex-1 w-full h-full overflow-hidden">
         <VxeTable
           ref="tableRef"

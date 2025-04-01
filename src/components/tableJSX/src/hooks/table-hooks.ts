@@ -2,15 +2,19 @@ import type { VxeTableInstance } from 'vxe-table'
 import type { TableProps } from '../types'
 import { EventTypeEnum } from '@/utils/enums'
 import { useEventBus } from '@/utils/eventBus.ts'
-import { getCurrentInstance, nextTick, onMounted, ref, watch, watchEffect } from 'vue'
+import { ElLoading } from 'element-plus'
+import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
 import { useTableConfig } from './table-config-hooks'
 
 export function setupTable() {
   const instance = getCurrentInstance()
+  const tableContainerRef = ref<HTMLElement>()
   const props = instance.props as unknown as TableProps
-  const { emit } = useEventBus([
+  const { emit, on } = useEventBus([
     /**   复选框选中触发 */
     `${props.uid}-${EventTypeEnum.DataGrid_ROW_CHANGE}`,
+    /**   actionbar 刷新 */
+    `${props.uid}-${EventTypeEnum.ActionBar_REFRESH}`,
   ])
   const selectedRows = ref<unknown[]>([])
   const { initTableConfig } = useTableConfig(props)
@@ -34,12 +38,20 @@ export function setupTable() {
 
   /**  获取列表数据 */
   async function handleGetData() {
-    tableConfig.value.loading = true
+    console.log(tableContainerRef.value, 'tableContainerRef')
 
+    const loading = ElLoading.service({
+      fullscreen: false,
+      text: '加载中',
+      target: tableContainerRef.value,
+      background: 'rgba(255, 255, 255, 0.6)',
+      // customClass: 'vxe-loading-wrapper',
+      lock: true,
+    })
     try {
       const res = await props.getTableData({
-        current: currentPage.value,
-        size: defaultPageSize.value,
+        page: currentPage.value,
+        pageSize: defaultPageSize.value,
         ...props?.queryContion || null,
       })
       // @ts-ignore
@@ -62,7 +74,7 @@ export function setupTable() {
       console.error('获取数据失败：', error)
     }
     finally {
-      tableConfig.value.loading = false
+      loading.close()
     }
   }
 
@@ -70,19 +82,35 @@ export function setupTable() {
   const handleSelectionChange = () => {
     selectedRows.value = tableRef.value?.getCheckboxRecords(true)
   }
-  watchEffect(async () => {
-    // 自动追踪 currentPage，defaultPageSize，以及 props.queryContion
-    await handleGetData()
-  })
+  watch(
+    [
+      () => currentPage.value,
+      () => defaultPageSize.value,
+      () => props.queryContion,
+    ],
+    async () => {
+      await handleGetData()
+    },
+    // { immediate: true }, // 首次加载时执行一次
+  )
 
   /**  监听选中行 */
   watch(selectedRows, (newVal) => {
     emit(EventTypeEnum.DataGrid_ROW_CHANGE, ...newVal)
   })
+
+  const initEvent = () => {
+    on(`${props.uid}-${EventTypeEnum.ActionBar_REFRESH}`, () => {
+      currentPage.value = 1
+      handleGetData()
+    })
+  }
   onMounted(async () => {
+    await handleGetData()
+    initEvent()
     // 确保在组件完全挂载后执行
     await nextTick() // 再等一次，确保 DOM 完全更新
-    // tableRef.value?.recalculate(true)
+    tableRef.value?.recalculate(true)
   })
 
   return {
@@ -94,6 +122,7 @@ export function setupTable() {
     currentPage,
     total,
     tableData,
+    tableContainerRef,
     handleSelectionChange,
     handleGetData,
     clearSelection,

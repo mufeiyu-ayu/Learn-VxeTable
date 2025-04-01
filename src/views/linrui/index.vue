@@ -6,10 +6,12 @@ import { deleteCardGoods, getCardGoods } from '@/apis2'
 import { ActionBar } from '@/components/actionBar/index.ts'
 import { DataGrid } from '@/components/tableJSX/index.ts'
 import { ElButton, ElPopconfirm, ElTag } from 'element-plus'
+import { v4 as uuidv4 } from 'uuid'
 import { ref } from 'vue'
 
 const tableRef = ref<TableExposeInstance>()
 const tableBind = ref<TableProps<Partial<CatalogueItem>>>({
+  uid: uuidv4(),
   tableColumns: [
     {
       field: 'catalogueId',
@@ -99,7 +101,7 @@ const tableBind = ref<TableProps<Partial<CatalogueItem>>>({
 <template>
   <div class="w-full h-full flex flex-col gap-4">
     <div class="h-[50px]  flex items-center">
-      <ActionBar />
+      <ActionBar uid="{tableBind.uid}" />
     </div>
     <div class="w-full flex-1 h-[calc(100%-50px)]">
       <DataGrid ref="tableRef" v-bind="tableBind" />

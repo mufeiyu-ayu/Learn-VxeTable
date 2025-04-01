@@ -11,6 +11,7 @@ export function useActionBar() {
     `${props.uid}-${EventTypeEnum.DataGrid_ROW_CHANGE}`,
   ])
 
+  /**   行选中触发 */
   on(EventTypeEnum.DataGrid_ROW_CHANGE, (...records) => {
     const res = records[0] as unknown[]
     selectedRows.value = res

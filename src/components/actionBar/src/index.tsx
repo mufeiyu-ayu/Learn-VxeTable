@@ -1,9 +1,9 @@
 import type { PropType } from 'vue'
 import type { ActionBarProps } from './types/actionbar'
-import { Folder, FolderOpened, Refresh, Search } from '@element-plus/icons-vue'
-import { ElButton } from 'element-plus'
-import { defineComponent } from 'vue'
+import { ElButton, ElTooltip } from 'element-plus'
+import { defineComponent, toRefs } from 'vue'
 import { useActionBar } from './hooks/actionBar'
+import { useActionBarButton } from './hooks/actionBar-action.ts'
 
 export default defineComponent({
   name: 'ActionBar',
@@ -14,6 +14,10 @@ export default defineComponent({
     },
     isHideDelete: {
       type: Boolean as PropType<ActionBarProps['isHideDelete']>,
+      default: false,
+    },
+    isHideRightButton: {
+      type: Boolean as PropType<ActionBarProps['isHideRightButton']>,
       default: false,
     },
     deleteAllParams: {
@@ -29,8 +33,9 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
+    const { isHideRightButton } = toRefs(props)
     const { selectedRows, handleDeleteAll } = useActionBar()
-
+    const { rightButtonsGather, onClick } = useActionBarButton()
     return () => (
       <div class="w-full h-full flex items-center justify-between">
         <div class="flex-1 flex items-center gap-2" v-slots={{}}>
@@ -38,11 +43,16 @@ export default defineComponent({
           {!props.isHideDelete && <ElButton onClick={handleDeleteAll} type="danger" disabled={selectedRows.value.length === 0}>批量删除</ElButton>}
         </div>
         <div class="flex mr-4 gap-2">
-          {slots.search?.() || <ElButton plain circle type="primary" icon={Search} />}
-          {slots.folder?.() || <ElButton plain circle type="primary" icon={Folder} />}
-          {slots.folderOpen?.() || <ElButton plain circle type="primary" icon={FolderOpened} />}
-          {slots.refresh?.() || <ElButton plain circle type="primary" icon={Refresh} />}
-          {slots.other?.()}
+          {!isHideRightButton.value && rightButtonsGather.map(item => (
+
+            slots[item.code]?.({ selectedRows }) || (
+              <ElTooltip content={item.title} placement="top">
+                <ElButton {...item} onClick={() => onClick(item)} />
+              </ElTooltip>
+            )
+          ))}
+          {slots.rightButton?.({ selectedRows })}
+
         </div>
       </div>
     )

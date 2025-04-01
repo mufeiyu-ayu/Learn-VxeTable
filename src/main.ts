@@ -15,8 +15,9 @@ import {
 } from 'vxe-table'
 import zhCN from 'vxe-table/lib/locale/lang/zh-CN'
 import App from './App.vue'
-
 import router from './router'
+
+import 'element-plus/dist/index.css'
 import 'vxe-table/lib/style.css'
 // import 'vxe-table/styles/loading.css'
 import 'vxe-pc-ui/lib/style.css'
