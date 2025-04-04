@@ -5,6 +5,7 @@ import {
   Loading,
   VxeInput,
   VxeLoading,
+  VxePrint,
   VxeTooltip,
   VxeUI,
 } from 'vxe-pc-ui'
@@ -28,6 +29,7 @@ const app = createApp(App)
 function lazyUI(app) {
   app.use(VxeInput)
   app.use(VxeTooltip)
+  app.use(VxePrint)
   app.use(VxeUI)
   app.use(VxeLoading)
   app.use(Loading)
